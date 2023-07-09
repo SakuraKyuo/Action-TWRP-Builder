@@ -4,10 +4,6 @@
 
 ---
 
-## OrangeFox is [here](https://github.com/azwhikaru/Action-OFRP-Builder)
-
----
-
 ## Thanks to
 - All contributors
 
