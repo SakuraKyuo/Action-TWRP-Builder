@@ -69,7 +69,6 @@ jobs:
 
     - name: Build
       run: |
-        ./kernel_platform/oplus/build/oplus_build_kernel.sh pineapple gki
         ./kernel_platform/tools/bazel build //vendor/qcom/opensource/display-driver:pineapple_gki_msm_kgsl_dist
         find ./ -name msm_drm.ko
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
