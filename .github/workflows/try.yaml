@@ -75,5 +75,20 @@ jobs:
           ln -sf ../vendor vendor
         fi
         ./tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_display_drivers_dist
-        find ./ -name msm_drm.ko
+        ./tools/bazel build //vendor/oplus/kernel/touchpanel/synaptics_hbp:pineapple_gki_oplus_bsp_synaptics_tcm2_dist
+        cp bazel-out/k8-fastbuild/bin/vendor .
+        zip vendor.zip vendor
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+
+
+    - name: Upload to Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: | 
+          workspace/kernel_platform/vendor.zip
+        name: ${{ github.run_id }}
+        tag_name: ${{ github.run_id }}
+        body: |
+          bomb
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
