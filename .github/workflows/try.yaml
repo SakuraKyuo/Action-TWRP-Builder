@@ -69,7 +69,6 @@ jobs:
 
     - name: Build
       run: |
-        cd kernel_platform
-        ./tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_msm_kgsl_dist
+        ./kernel_platform/tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_msm_drm_dist
         find ./ -name msm_drm.ko
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
