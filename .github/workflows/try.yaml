@@ -70,6 +70,7 @@ jobs:
     - name: Build
       run: |
         cd kernel_platform
+        sed -i 's/\/\/build://g' msm-kernel/msm_platforms.bzl
         ln -sf ../vendor vendor
         ./tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_volcano_msm_drm
         find ./ -name msm_drm.ko
