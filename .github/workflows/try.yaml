@@ -69,9 +69,10 @@ jobs:
 
     - name: Build
       run: |
+        ./kernel_platform/oplus/build/oplus_build_kernel.sh pineapple gki
         cd kernel_platform
-        sed -i 's/\/\/build://g' msm-kernel/msm_platforms.bzl
+        if [[ -f "vendor" ]]
         ln -sf ../vendor vendor
-        ./tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_volcano_msm_drm
+        ./tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_volcano_display_drivers_dist
         find ./ -name msm_drm.ko
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
