@@ -74,6 +74,6 @@ jobs:
         if [[ -f "vendor" ]]; then
           ln -sf ../vendor vendor
         fi
-        ./tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_volcano_display_drivers_dist
+        ./tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_display_drivers_dist
         find ./ -name msm_drm.ko
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
