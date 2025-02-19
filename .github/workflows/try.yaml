@@ -76,7 +76,13 @@ jobs:
         fi
         ./tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_display_drivers_dist
         ./tools/bazel build //vendor/oplus/kernel/touchpanel/synaptics_hbp:pineapple_gki_oplus_bsp_synaptics_tcm2_dist
-        cp bazel-out/k8-fastbuild/bin/vendor .
+        mkdir vendor
+        for i in $(find ./ -name msm_drm.ko);do
+        cp $i vendor/
+        done
+        for i in $(find ./ -name oplus_bsp_synaptics_tcm2.ko);do
+        cp $i vendor/
+        done
         zip vendor.zip vendor
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
