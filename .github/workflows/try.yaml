@@ -71,7 +71,6 @@ jobs:
       run: |
         cd kernel_platform
         ln -sf ../vendor vendor
-        ./tools/bazel query //vendor/qcom/opensource/display-drivers:*
-        ./tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_msm_drm_dist
+        ./tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_display_drivers_dist
         find ./ -name msm_drm.ko
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
