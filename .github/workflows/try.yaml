@@ -76,14 +76,18 @@ jobs:
         fi
         ./tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_display_drivers_dist
         ./tools/bazel build //vendor/oplus/kernel/touchpanel/synaptics_hbp:pineapple_gki_oplus_bsp_synaptics_tcm2_dist
-        mkdir vendor
-        for i in $(find ./ -name msm_drm.ko);do
-        cp $i vendor/
+        mkdir vendorn
+        for i in $(find ./out -name msm_drm.ko);do
+        if [[ ! -f "vendorn/msm_drm.ko" ]]; then
+        cp $i vendorn/
+        fi
         done
-        for i in $(find ./ -name oplus_bsp_synaptics_tcm2.ko);do
-        cp $i vendor/
+        for i in $(find ./out -name oplus_bsp_synaptics_tcm2.ko);do
+        if [[ ! -f "vendorn/oplus_bsp_synaptics_tcm2.ko" ]]; then
+        cp $i vendorn/
+        fi
         done
-        zip vendor.zip vendor
+        zip vendor.zip vendorn
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
 
