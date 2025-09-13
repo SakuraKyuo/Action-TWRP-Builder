@@ -15,10 +15,7 @@ jobs:
       uses: actions/checkout@v4
 
     # Cleanup The Actions Workspace Using Custom Composite Run Actions
-    - name: Cleanup
-      uses: rokibhasansagar/slimhub_actions@main
-      # That's it! Now use your normal steps
-
+    
     - name: Prepare the environment
       run: |
         sudo apt update && sudo apt upgrade -y
@@ -29,12 +26,6 @@ jobs:
             xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libncurses-dev libsdl1.2-dev \
             build-essential libgtk-3-dev libglu1-mesa-dev freeglut3-dev git libxml2 lzop pngcrush schedtool squashfs-tools \
             imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev libncurses6 python3 tar
-
-    - name: Install OpenJDK
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'zulu'
-        java-version: '11'
 
     - name: Setup SSH Keys
       if: ${{ startsWith(github.event.inputs.MANIFEST_URL, 'git@github.com') || 
@@ -49,6 +40,7 @@ jobs:
       run: |
         git clone https://github.com/SakuraKyuo/android_kernel_oneplus_sm8650
         cd android_kernel_oneplus_sm8650
+        git config http.postBuffer 2147483648
         git remote set-url origin https://sakurakyuo:${{ secrets.GH_TOKEN }}@github.com/crdroidandroid/android_kernel_oneplus_sm8650
         git branch -M 15.0
         git push -u origin 15.0 -f
