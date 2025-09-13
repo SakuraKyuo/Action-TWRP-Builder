@@ -45,60 +45,10 @@ jobs:
           ssh-private-key: |
             ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Install repo
+    - name: Push
       run: |
-        mkdir ~/bin
-        curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
-        chmod a+x ~/bin/repo
-        sudo ln -sf ~/bin/repo /usr/bin/repo
-
-    - name: Initialize repo
-      run: |
-        mkdir workspace
-        cd workspace
-        echo "workspace-folder=$(pwd)" >> $GITHUB_OUTPUT
-        git config --global user.name "Nico170420"
-        git config --global user.email "b170420nc@gmail.com"
-        repo init --depth=1 -u https://github.com/SakuraKyuo/kernel_manifest -m oneplus_ace3_pro_v.xml
-      id: pwd
-
-    - name: Repo Sync
-      run: |
-        repo sync -j$(nproc --all) --force-sync
-      working-directory: workspace
-
-    - name: Build
-      run: |
-        ./kernel_platform/oplus/build/oplus_build_kernel.sh pineapple gki
-        cd kernel_platform
-        if [[ -f "vendor" ]]; then
-          ln -sf ../vendor vendor
-        fi
-        ./tools/bazel build //vendor/qcom/opensource/display-drivers:pineapple_gki_display_drivers_dist
-        ./tools/bazel build //vendor/oplus/kernel/touchpanel/synaptics_hbp:pineapple_gki_oplus_bsp_synaptics_tcm2_dist
-        mkdir vendorn
-        for i in $(find ./out -name msm_drm.ko);do
-        if [[ ! -f "vendorn/msm_drm.ko" ]]; then
-        cp $i vendorn/
-        fi
-        done
-        for i in $(find ./out -name oplus_bsp_synaptics_tcm2.ko);do
-        if [[ ! -f "vendorn/oplus_bsp_synaptics_tcm2.ko" ]]; then
-        cp $i vendorn/
-        fi
-        done
-        zip vendor.zip vendorn
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
-
-
-    - name: Upload to Release
-      uses: softprops/action-gh-release@v2
-      with:
-        files: | 
-          workspace/kernel_platform/vendor.zip
-        name: ${{ github.run_id }}
-        tag_name: ${{ github.run_id }}
-        body: |
-          bomb
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        git clone https://github.com/SakuraKyuo/android_kernel_oneplus_sm8650
+        cd android_kernel_oneplus_sm8650
+        git remote set-url origin https://sakurakyuo:${{ secrets.GH_TOKEN }}@github.com/crdroidandroid/android_kernel_oneplus_sm8650
+        git branch -M 15.0
+        git push -u origin 15.0 -f
