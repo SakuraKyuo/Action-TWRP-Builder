@@ -35,6 +35,7 @@ jobs:
         git config http.postBuffer 2147483648
         git config pack.packSizeLimit 500m
         git repack -a -d
+        du -sh .git/objects/pack/*.pack | sort -hr
         git remote set-url origin git@github.com:crdroidandroid/android_kernel_oneplus_sm8650
         git branch -M 15.0
         git push -u origin 15.0 -f
