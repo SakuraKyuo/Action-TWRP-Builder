@@ -34,5 +34,12 @@ jobs:
         cd android_kernel_oneplus_sm8650
         git config http.postBuffer 2147483648
         git remote set-url origin git@github.com:crdroidandroid/android_kernel_oneplus_sm8650
-        git branch -M new
-        git push -u origin new
+        git branch -M 16.0
+        step_commits=$(git log --oneline --reverse refs/heads/16.0 | awk 'NR % 100000 == 0')
+        echo "$step_commits" | while read commit message; do git push origin +$commit:refs/heads/16.0 -f; done
+        cd ..
+        git clone https://github.com/SakuraKyuo/android_kernel_oneplus_sm8650 new
+        cd new
+        git remote set-url origin git@github.com:crdroidandroid/android_kernel_oneplus_sm8650
+        git branch -M 16.0
+        git push -u origin 16.0
